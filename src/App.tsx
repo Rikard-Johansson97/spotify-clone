@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { getAccessToken } from "./utils/getAccessToken";
@@ -14,15 +15,20 @@ function App() {
     if (accessToken) {
       sessionStorage.setItem("spotifyToken", accessToken);
       setToken(accessToken);
+      window.location.hash = "";
     }
   }, []);
 
   return (
     <Box className='App'>
-      <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/login' element={<Login />}></Route>
-      </Routes>
+      {token ? (
+        <Dashboard />
+      ) : (
+        <Routes>
+          <Route path='/' element={<Home />}></Route>
+          <Route path='/login' element={<Login />}></Route>
+        </Routes>
+      )}
     </Box>
   );
 }
