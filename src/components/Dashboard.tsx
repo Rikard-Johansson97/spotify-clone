@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Sidebar from "./Sidebar";
+import Playlist from "../pages/Playlist";
 
 interface DashboardProps {}
 
@@ -20,7 +21,7 @@ const Dashboard: FC<DashboardProps> = ({}) => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/library' element={<div>library</div>} />
-          <Route path='/playlist/:id' element={<div>playlist</div>} />
+          <Route path='/playlist/:id' element={<Playlist />} />
         </Routes>
       </Box>
       {/* Playern går här */}
