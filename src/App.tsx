@@ -7,9 +7,12 @@ import Login from "./pages/Login";
 import Playlist from "./pages/Playlist";
 import { getAccessToken } from "./utils/getAccessToken";
 import { getAccessTokenFromStorage } from "./utils/getAccessTokenFromStorage";
+import { useSelector } from "react-redux";
 
 function App() {
   const [token, setToken] = useState("");
+  const spotifyApi = useSelector((state) => state);
+  console.log(JSON.stringify(spotifyApi));
 
   useEffect(() => {
     let accessToken = getAccessTokenFromStorage() || getAccessToken();
@@ -26,9 +29,7 @@ function App() {
         <Dashboard />
       ) : (
         <Routes>
-          <Route path='/' element={<Home />}></Route>
-          <Route path='/login' element={<Login />}></Route>
-          <Route path='/playlist/:id' element={<Playlist />}></Route>
+          <Route path='*' element={<Home />}></Route>
         </Routes>
       )}
     </Box>

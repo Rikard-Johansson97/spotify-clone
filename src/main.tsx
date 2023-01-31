@@ -5,13 +5,17 @@ import "./index.css";
 import { ThemeProvider } from "@mui/system";
 import { themeOptions } from "./theme";
 import { BrowserRouter } from "react-router-dom";
+import { store } from "./store/index";
+import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider theme={themeOptions}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={themeOptions}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 );
