@@ -15,6 +15,7 @@ const Playlist: FC<PlaylistProps> = ({}) => {
           justifyContent: "flex-start",
           alignItems: "center",
           gap: 3,
+          background: "linear-gradient(#f0790070, #121212)",
         }}>
         <Avatar
           src='https://upload.wikimedia.org/wikipedia/en/b/b9/Myworld2.jpg'

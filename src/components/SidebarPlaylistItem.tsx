@@ -11,7 +11,7 @@ const SidebarPlaylistItem: FC<SidebarPlaylistItemProps> = ({}) => {
         px={3}
         py={1}
         sx={{ color: "text.secondary", cursor: "pointer", fontSize: 14 }}>
-        JUSTIN TIMBERLAKE
+        JUSTIN Bieber
       </Box>
     </Link>
   );
