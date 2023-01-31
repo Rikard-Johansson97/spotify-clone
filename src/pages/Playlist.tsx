@@ -1,5 +1,6 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import React, { FC } from "react";
+import SongTable from "../components/SongTable";
 
 interface PlaylistProps {}
 
@@ -24,13 +25,27 @@ const Playlist: FC<PlaylistProps> = ({}) => {
             height: { sx: "100%", md: 235 },
           }}
         />
+
+        <Box>
+          <Typography
+            sx={{
+              fontSize: 18,
+              fontWeight: "bold",
+              color: "text.primary",
+            }}>
+            Playlist
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: 42, md: 72 },
+              fontWeight: "bold",
+              color: "text.primary",
+            }}>
+            My world 2.0
+          </Typography>
+        </Box>
       </Box>
-      <Box>
-        <Typography
-          sx={{ fontSize: 14, fontWeight: "bold", color: "text.primary" }}>
-          Playlist
-        </Typography>
-      </Box>
+      <SongTable />
     </Box>
   );
 };
