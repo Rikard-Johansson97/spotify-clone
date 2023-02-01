@@ -5,10 +5,11 @@ import Home from "../pages/Home";
 import Sidebar from "./Sidebar";
 import Playlist from "../pages/Playlist";
 import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getPlaylist } from "../store/playlistSlice";
 import { redirectURL } from "../config";
 import SpotifyWebApi from "spotify-web-api-node";
+import Player from "./Player";
 
 interface DashboardProps {}
 
@@ -26,8 +27,8 @@ const Dashboard: FC<DashboardProps> = ({}) => {
 
     if (accessToken) {
       async function onMount() {
-        await spotifyApi.setAccessToken(accessToken);
-        dispatch(getPlaylist(spotifyApi));
+        await spotifyApi.setAccessToken(accessToken as any);
+        dispatch<any>(getPlaylist(spotifyApi));
       }
       onMount();
     }
@@ -52,7 +53,7 @@ const Dashboard: FC<DashboardProps> = ({}) => {
           />
         </Routes>
       </Box>
-      {/* Playern går här */}
+      <Player />
     </Box>
   );
 };

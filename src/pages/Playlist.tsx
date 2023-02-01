@@ -23,7 +23,7 @@ const Playlist: FC<PlaylistProps> = ({ spotifyApi }) => {
     setIsLoading(false);
   }, [id]);
 
-  console.log(playlist);
+  console.log(JSON.stringify(playlist?.tracks.items));
 
   return (
     <Box sx={{ bgcolor: "background.paper", flex: 1, overflowY: "auto" }}>

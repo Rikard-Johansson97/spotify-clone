@@ -9,8 +9,6 @@ interface SidebarPlaylistItemProps {
 }
 
 const SidebarPlaylistItem: FC<SidebarPlaylistItemProps> = ({ name, id }) => {
-
-  console.log{}
   return (
     <Link to={`/playlist/${id}`} style={{ textDecoration: "none" }}>
       <Box
