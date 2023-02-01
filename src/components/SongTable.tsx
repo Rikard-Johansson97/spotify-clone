@@ -1,11 +1,15 @@
 import { AccessTimeRounded } from "@mui/icons-material";
 import { Box, Grid } from "@mui/material";
 import React, { FC } from "react";
+import { Song, Songs } from "../types/song";
 import SongRow from "./SongRow";
 
-interface SongTableProps {}
+interface SongTableProps {
+  songs: Songs;
+  isLoading: boolean;
+}
 
-const SongTable: FC<SongTableProps> = ({}) => {
+const SongTable: FC<SongTableProps> = ({ isLoading, songs }) => {
   return (
     <Box p={{ xs: 3, md: 4 }}>
       <Grid
@@ -26,11 +30,13 @@ const SongTable: FC<SongTableProps> = ({}) => {
           <AccessTimeRounded sx={{ width: "20", height: "20" }} />
         </Grid>
       </Grid>
-      {Array(50)
-        .fill(0)
-        .map(() => (
-          <SongRow />
-        ))}
+      {isLoading
+        ? Array(20)
+            .fill()
+            .map((_, index) => <SongRow isLoading={isLoading} index={index} />)
+        : songs?.map((song: Song, index: number) => (
+            <SongRow key={index} index={index} song={song.track} />
+          ))}
     </Box>
   );
 };

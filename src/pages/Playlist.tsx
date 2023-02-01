@@ -1,10 +1,30 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import SongTable from "../components/SongTable";
+import { Song, Songs } from "../types/song";
 
-interface PlaylistProps {}
+interface PlaylistProps {
+  spotifyApi: any;
+}
 
-const Playlist: FC<PlaylistProps> = ({}) => {
+const Playlist: FC<PlaylistProps> = ({ spotifyApi }) => {
+  const { id } = useParams();
+  const [playlist, setPlaylist] = useState<Songs | null>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getPlaylist = async () => {
+      const playlistInfo = await spotifyApi.getPlaylist(id);
+
+      setPlaylist(playlistInfo.body);
+    };
+    getPlaylist();
+    setIsLoading(false);
+  }, [id]);
+
+  console.log(playlist);
+
   return (
     <Box sx={{ bgcolor: "background.paper", flex: 1, overflowY: "auto" }}>
       <Box
@@ -18,7 +38,7 @@ const Playlist: FC<PlaylistProps> = ({}) => {
           background: "linear-gradient(#f0790070, #121212)",
         }}>
         <Avatar
-          src='https://upload.wikimedia.org/wikipedia/en/b/b9/Myworld2.jpg'
+          src={playlist?.images[0]?.url}
           variant='square'
           sx={{
             boxShadow: 15,
@@ -34,7 +54,7 @@ const Playlist: FC<PlaylistProps> = ({}) => {
               fontWeight: "bold",
               color: "text.primary",
             }}>
-            Playlist
+            {Playlist?.name}
           </Typography>
           <Typography
             sx={{
@@ -42,11 +62,11 @@ const Playlist: FC<PlaylistProps> = ({}) => {
               fontWeight: "bold",
               color: "text.primary",
             }}>
-            My world 2.0
+            {Playlist?.name}
           </Typography>
         </Box>
       </Box>
-      <SongTable />
+      <SongTable songs={playlist?.tracks.items} isLoading={isLoading} />
     </Box>
   );
 };

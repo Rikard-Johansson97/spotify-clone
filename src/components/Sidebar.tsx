@@ -1,12 +1,16 @@
 import { Box, Divider } from "@mui/material";
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { HomeRounded } from "@mui/icons-material";
 import SidebarPlaylistItem from "./SidebarPlaylistItem";
+import { useSelector } from "react-redux";
+import { Playlists } from "../types/playlist";
 
 interface SidebarProps {}
 
 const Sidebar: FC<SidebarProps> = ({}) => {
+  const { albumList }: any = useSelector<Playlists>((state) => state.playlist);
+
   return (
     <Box
       sx={{
@@ -35,11 +39,9 @@ const Sidebar: FC<SidebarProps> = ({}) => {
         <Divider />
       </Box>
       <Box sx={{ flex: 1, overflowY: "auto" }}>
-        <SidebarPlaylistItem />
-        <SidebarPlaylistItem />
-        <SidebarPlaylistItem />
-        <SidebarPlaylistItem />
-        <SidebarPlaylistItem />
+        {albumList?.map((album: any) => (
+          <SidebarPlaylistItem key={album.id} id={album.id} name={album.name} />
+        ))}
       </Box>
     </Box>
   );

@@ -1,17 +1,30 @@
 import React, { FC } from "react";
-import { Box, Avatar, Typography, Grid } from "@mui/material";
+import { Box, Avatar, Typography, Grid, Skeleton } from "@mui/material";
+import { Song } from "../types/song";
+import { formatTime } from "../utils/formatTime";
 
-interface SongRowProps {}
+interface SongRowProps {
+  index: number;
+  song: Song;
+  isLoading: boolean;
+}
 
-const SongRow: FC<SongRowProps> = ({}) => {
+const SongRow: FC<SongRowProps> = ({ index, song, isLoading }) => {
   return (
     <Grid
       container
       px={2}
       py={1}
-      sx={{ color: "text.secondary", fontSize: 14, cursor: "pointer" }}>
-      <Grid item sx={{ width: 35, fontSize: 16 }}>
-        1
+      sx={{
+        color: "text.secondary",
+        fontSize: 14,
+        cursor: "pointer",
+        "&:hover": { bgcolor: "#f0790030" },
+      }}>
+      <Grid
+        item
+        sx={{ width: 35, fontSize: 16, display: "flex", alignItems: "center" }}>
+        {index + 1}
       </Grid>
       <Grid
         item
@@ -21,21 +34,52 @@ const SongRow: FC<SongRowProps> = ({}) => {
           alignItems: "center",
           gap: 2,
         }}>
-        <Avatar variant='square' />
+        {isLoading ? (
+          <Skeleton variant='rectangular' width={40} height={40} />
+        ) : (
+          <Avatar variant='square' src={song.album.images[0].url} />
+        )}
+
         <Box sx={{ ml: 1 }}>
           <Typography sx={{ fontSize: 16, color: "text.primary" }}>
-            Baby
+            {isLoading ? (
+              <Skeleton variant='text' width={50} height={18} />
+            ) : (
+              song.name
+            )}
           </Typography>
           <Typography sx={{ fontSize: 12, color: "text.secondary" }}>
-            Justin Bieber
+            {isLoading ? (
+              <Skeleton variant='text' width={50} height={18} />
+            ) : (
+              song.artists[0].name
+            )}
           </Typography>
         </Box>
       </Grid>
-      <Grid item xs={3} sx={{ display: { xs: "none", md: "flex" } }}>
-        My World
+      <Grid
+        item
+        xs={3}
+        sx={{ display: { xs: "none", md: "flex", alignItems: "center" } }}>
+        {isLoading ? (
+          <Skeleton variant='text' width={50} height={14} />
+        ) : (
+          song.album.name
+        )}
       </Grid>
-      <Grid item xs={3} sx={{ display: "flex", justifyContent: "flex-end" }}>
-        1:23
+      <Grid
+        item
+        xs={3}
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        }}>
+        {isLoading ? (
+          <Skeleton variant='text' width={50} height={14} />
+        ) : (
+          formatTime(song.duration_ms)
+        )}
       </Grid>
     </Grid>
   );

@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice, SliceCaseReducers } from '@reduxjs/toolkit'
+import { Playlists } from '../types/playlist'
 
 const initialState = {
   status: {
     isLoading: false,
     isError: null as unknown
   },
-  albumList: []
+  albumList: [] as unknown
 }
 
 const playListSlice = createSlice<typeof initialState, SliceCaseReducers<typeof initialState>>({
@@ -30,14 +31,16 @@ const playListSlice = createSlice<typeof initialState, SliceCaseReducers<typeof 
   }
 })
 
-export const getPlaylist = createAsyncThunk('getPlaylist', async (spotifyApi, thunkAPI) => {
-  try {
-    const data = await (spotifyApi as any).getUserPlaylists()
-
-    return data.body.items
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error)
+export const getPlaylist = createAsyncThunk(
+  "getPlaylist",
+  async (spotifyApi, thunkAPI) => {
+    try {
+      const data = await spotifyApi.getUserPlaylists();
+      return data.body.items;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-})
+);
 
 export default playListSlice.reducer

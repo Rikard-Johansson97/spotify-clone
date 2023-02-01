@@ -12,7 +12,6 @@ import { useSelector } from "react-redux";
 function App() {
   const [token, setToken] = useState("");
   const spotifyApi = useSelector((state) => state);
-  console.log(JSON.stringify(spotifyApi));
 
   useEffect(() => {
     let accessToken = getAccessTokenFromStorage() || getAccessToken();
@@ -30,6 +29,7 @@ function App() {
       ) : (
         <Routes>
           <Route path='*' element={<Home />}></Route>
+          <Route path='/login' element={<Login />}></Route>
         </Routes>
       )}
     </Box>

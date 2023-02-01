@@ -19,8 +19,6 @@ const Dashboard: FC<DashboardProps> = ({}) => {
     redirectUri: redirectURL,
   });
 
-  console.log(spotifyApi);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +26,7 @@ const Dashboard: FC<DashboardProps> = ({}) => {
 
     if (accessToken) {
       async function onMount() {
-        await spotifyApi.setAccessToken(accessToken as string);
+        await spotifyApi.setAccessToken(accessToken);
         dispatch(getPlaylist(spotifyApi));
       }
       onMount();
@@ -48,7 +46,10 @@ const Dashboard: FC<DashboardProps> = ({}) => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/library' element={<div>library</div>} />
-          <Route path='/playlist/:id' element={<Playlist />} />
+          <Route
+            path='/playlist/:id'
+            element={<Playlist spotifyApi={spotifyApi} />}
+          />
         </Routes>
       </Box>
       {/* Playern går här */}
