@@ -9,9 +9,14 @@ interface SongRowProps {
   isLoading: boolean;
 }
 
-const SongRow: FC<SongRowProps> = ({ index, song, isLoading }) => {
+const SongRow: FC<SongRowProps> = ({ index, song, isLoading, spotifyApi }) => {
+  async function handleClick() {
+    console.log(song);
+    await spotifyApi.play(song);
+  }
   return (
     <Grid
+      onClick={handleClick}
       container
       px={2}
       py={1}
@@ -23,27 +28,26 @@ const SongRow: FC<SongRowProps> = ({ index, song, isLoading }) => {
       }}>
       <Grid
         item
-        sx={{ width: 35, fontSize: 16, display: "flex", alignItems: "center" }}>
+        sx={{
+          width: 35,
+          fontSize: 16,
+          display: "flex",
+          alignItems: "center",
+        }}>
         {index + 1}
       </Grid>
       <Grid
         item
-        sx={{
-          flex: 1,
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-        }}>
+        sx={{ flex: 1, display: "flex", alignItems: "center", gap: 2 }}>
         {isLoading ? (
           <Skeleton variant='rectangular' width={40} height={40} />
         ) : (
-          <Avatar variant='square' src={song.album.images[0].url} />
+          <Avatar variant='square' src={song.album.images[0]?.url} />
         )}
-
         <Box sx={{ ml: 1 }}>
           <Typography sx={{ fontSize: 16, color: "text.primary" }}>
             {isLoading ? (
-              <Skeleton variant='text' width={50} height={18} />
+              <Skeleton variant='text' width={130} height={24} />
             ) : (
               song.name
             )}
@@ -60,9 +64,12 @@ const SongRow: FC<SongRowProps> = ({ index, song, isLoading }) => {
       <Grid
         item
         xs={3}
-        sx={{ display: { xs: "none", md: "flex", alignItems: "center" } }}>
+        sx={{
+          display: { xs: "none", md: "flex" },
+          alignItems: "center",
+        }}>
         {isLoading ? (
-          <Skeleton variant='text' width={50} height={14} />
+          <Skeleton variant='text' width={50} height={18} />
         ) : (
           song.album.name
         )}
@@ -76,7 +83,7 @@ const SongRow: FC<SongRowProps> = ({ index, song, isLoading }) => {
           alignItems: "center",
         }}>
         {isLoading ? (
-          <Skeleton variant='text' width={50} height={14} />
+          <Skeleton variant='text' width={50} height={18} />
         ) : (
           formatTime(song.duration_ms)
         )}

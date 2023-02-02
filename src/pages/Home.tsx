@@ -8,13 +8,13 @@ const Home: FC<HomeProps> = ({}) => {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "Center",
+        justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        gap: "5",
+        gap: 5,
       }}>
       <Button size='large' variant='contained'>
-        Hej Spotify
+        Hej spotify
       </Button>
     </Box>
   );

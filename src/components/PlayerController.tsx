@@ -11,10 +11,10 @@ interface PlayerControllerProps {
 }
 
 const PlayerController: FC<PlayerControllerProps> = ({
-  progress,
+  player,
   is_paused,
   duration,
-  player,
+  progress,
 }) => {
   const [currentProgress, setCurrentProgress] = useState(progress / 1000);
 
@@ -36,14 +36,15 @@ const PlayerController: FC<PlayerControllerProps> = ({
     <Stack
       spacing={0}
       justifyContent='center'
-      alignItems={"center"}
+      alignItems='center'
       sx={{ width: "100%" }}>
       <Stack
         direction='row'
-        justifyContent={"center"}
-        alignItems={"center"}
+        justifyContent='center'
+        alignItems='center'
         spacing={1}>
         <IconButton
+          size='small'
           sx={{ color: "text.primary" }}
           onClick={() => {
             player.previousTrack();
@@ -51,6 +52,7 @@ const PlayerController: FC<PlayerControllerProps> = ({
           <SkipPrevious sx={{ width: 28, height: 28 }} />
         </IconButton>
         <IconButton
+          size='small'
           sx={{ color: "text.primary" }}
           onClick={() => {
             player.togglePlay();
@@ -62,6 +64,7 @@ const PlayerController: FC<PlayerControllerProps> = ({
           )}
         </IconButton>
         <IconButton
+          size='small'
           sx={{ color: "text.primary" }}
           onClick={() => {
             player.nextTrack();
@@ -71,31 +74,31 @@ const PlayerController: FC<PlayerControllerProps> = ({
       </Stack>
       <Stack
         direction='row'
-        justifyContent={"center"}
-        alignItems={"center"}
+        justifyContent='center'
+        alignItems='center'
         spacing={2}
         sx={{ width: "75%" }}>
         <Typography
           variant='body1'
           sx={{ color: "text.secondary", fontSize: 12 }}>
-          {formatTime(progress * 1000)}
+          {formatTime(currentProgress * 1000)}
         </Typography>
         <Slider
           size='medium'
           min={0}
+          value={currentProgress}
           max={duration / 1000}
           onChange={(_, v) => {
-            setCurrentProgress(v as number);
+            setCurrentProgress(v);
           }}
           onChangeCommitted={(_, v) => {
             player.seek(v * 1000);
           }}
-          value={currentProgress}
         />
         <Typography
           variant='body1'
           sx={{ color: "text.secondary", fontSize: 12 }}>
-          {formatTime(duration * 1000)}
+          {formatTime(duration)}
         </Typography>
       </Stack>
     </Stack>

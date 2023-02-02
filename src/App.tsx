@@ -11,10 +11,10 @@ import { useSelector } from "react-redux";
 
 function App() {
   const [token, setToken] = useState("");
-  const spotifyApi = useSelector((state) => state);
 
   useEffect(() => {
     let accessToken = getAccessTokenFromStorage() || getAccessToken();
+
     if (accessToken) {
       sessionStorage.setItem("spotifyToken", accessToken);
       setToken(accessToken);
@@ -23,12 +23,12 @@ function App() {
   }, []);
 
   return (
-    <Box className='App'>
+    <Box sx={{ height: "100%" }}>
       {token ? (
         <Dashboard />
       ) : (
         <Routes>
-          <Route path='*' element={<Login />}></Route>
+          <Route path='*' element={<Login />} />
         </Routes>
       )}
     </Box>

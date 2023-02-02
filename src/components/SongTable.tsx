@@ -9,7 +9,7 @@ interface SongTableProps {
   isLoading: boolean;
 }
 
-const SongTable: FC<SongTableProps> = ({ isLoading, songs }) => {
+const SongTable: FC<SongTableProps> = ({ isLoading, songs, spotifyApi }) => {
   return (
     <Box p={{ xs: 3, md: 4 }}>
       <Grid
@@ -27,21 +27,19 @@ const SongTable: FC<SongTableProps> = ({ isLoading, songs }) => {
           Album
         </Grid>
         <Grid item xs={3} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <AccessTimeRounded sx={{ width: "20", height: "20" }} />
+          <AccessTimeRounded sx={{ width: 20, height: 20 }} />
         </Grid>
       </Grid>
       {isLoading
         ? Array(20)
-            .fill()
-            .map((_, index) => (
-              <SongRow key={index} isLoading={isLoading} index={index} />
-            ))
-        : songs?.map((song: Items, index: number) => (
+            .fill(0)
+            .map((_, index) => <SongRow key={index} isLoading index={index} />)
+        : songs?.map((song, index) => (
             <SongRow
               key={index}
-              isLoading={isLoading}
-              index={index}
               song={song.track}
+              index={index}
+              spotifyApi={spotifyApi}
             />
           ))}
     </Box>

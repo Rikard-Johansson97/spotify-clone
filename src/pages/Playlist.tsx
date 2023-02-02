@@ -10,17 +10,18 @@ interface PlaylistProps {
 
 const Playlist: FC<PlaylistProps> = ({ spotifyApi }) => {
   const { id } = useParams();
-  const [playlist, setPlaylist] = useState<Songs | null>();
+  const [playlist, setPlaylist] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const getPlaylist = async () => {
+    async function getPlaylist() {
+      setIsLoading(true);
       const playlistInfo = await spotifyApi.getPlaylist(id);
-
+      console.log(playlistInfo);
       setPlaylist(playlistInfo.body);
-    };
+      setIsLoading(false);
+    }
     getPlaylist();
-    setIsLoading(false);
   }, [id]);
 
   return (
@@ -30,21 +31,21 @@ const Playlist: FC<PlaylistProps> = ({ spotifyApi }) => {
         sx={{
           width: "100%",
           display: "flex",
+          background: "linear-gradient(#f0790070, #121212)",
           justifyContent: "flex-start",
           alignItems: "center",
           gap: 3,
-          background: "linear-gradient(#f0790070, #121212)",
+          boxSizing: "border-box",
         }}>
         <Avatar
-          src={playlist?.images[0]?.url}
           variant='square'
+          src={playlist?.images[0]?.url}
           sx={{
             boxShadow: 15,
             width: { sx: "100%", md: 235 },
             height: { sx: "100%", md: 235 },
           }}
         />
-
         <Box>
           <Typography
             sx={{
@@ -52,7 +53,7 @@ const Playlist: FC<PlaylistProps> = ({ spotifyApi }) => {
               fontWeight: "bold",
               color: "text.primary",
             }}>
-            {Playlist?.name}
+            Playlist
           </Typography>
           <Typography
             sx={{
@@ -60,11 +61,24 @@ const Playlist: FC<PlaylistProps> = ({ spotifyApi }) => {
               fontWeight: "bold",
               color: "text.primary",
             }}>
-            {Playlist?.name}
+            {playlist?.name}
           </Typography>
         </Box>
       </Box>
-      <SongTable songs={playlist?.tracks.items} isLoading={isLoading} />
+
+      <SongTable
+        songs={playlist?.tracks.items.map((song, i) => ({
+          ...song,
+          track: {
+            ...song.track,
+            context_uri: `spotify:playlist:${id}`,
+            position: i,
+            offset: { position: i },
+          },
+        }))}
+        isLoading={isLoading}
+        spotifyApi={spotifyApi}
+      />
     </Box>
   );
 };

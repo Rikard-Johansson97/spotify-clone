@@ -9,11 +9,9 @@ interface PlayerProps {
 }
 
 const Player: FC<PlayerProps> = ({ spotifyApi }) => {
-  const track = null;
-
   const [localPlayer, setPlayer] = useState(null);
   const [is_paused, setPaused] = useState(false);
-  const [current_track, setTrack] = useState(track);
+  const [current_track, setTrack] = useState(null);
   const [device, setDevice] = useState(null);
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(null);
@@ -46,8 +44,8 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
           return;
         }
         console.log(state);
-        const duration_ms = state.track_window.current_track.duration_ms / 1000;
-        const position_ms = state.position / 1000;
+        const duration_ms = state.track_window.current_track.duration_ms;
+        const position_ms = state.position;
         setDuration(duration_ms);
         setProgress(position_ms);
         setTrack(state.track_window.current_track);
@@ -94,12 +92,12 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
         }}>
         <Grid item xs={3} sx={{ display: "flex", alignItems: "center" }}>
           <Avatar
-            src={current_track?.album.images[0].url}
+            src={current_track.album.images[0]?.url}
             variant='square'
             sx={{ width: 56, height: 56, marginRight: 2 }}
           />
           <Box>
-            <Typography sx={{ color: "text.primary", fontSize: 12 }}>
+            <Typography sx={{ color: "text.primary", fontSize: 14 }}>
               {current_track?.name}
             </Typography>
             <Typography sx={{ color: "text.secondary", fontSize: 12 }}>

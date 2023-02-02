@@ -30,9 +30,9 @@ export default function PlayerVolume({ player }: any) {
           min={0}
           max={100}
           value={volume}
-          onChange={(_, v) => setVolume(v as number)}
+          onChange={(_, v) => setVolume(v)}
           onChangeCommitted={(_, v) => {
-            player.setVolume((v as number) / 100);
+            player.setVolume(v / 100);
           }}
           step={1}
         />

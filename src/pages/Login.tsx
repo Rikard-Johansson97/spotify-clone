@@ -9,13 +9,13 @@ const Login: FC<LoginProps> = ({}) => {
     <Box
       sx={{
         height: "100vh",
-        bgcolor: "Background.paper",
+        bgcolor: "background.paper",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}>
       <Button href={accessUrl} size='large' variant='contained'>
-        Login
+        Login to spotify
       </Button>
     </Box>
   );

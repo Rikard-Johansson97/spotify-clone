@@ -1,7 +1,6 @@
 import { Box } from "@mui/system";
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import { Playlists } from "../types/playlist";
 
 interface SidebarPlaylistItemProps {
   name: string;
@@ -14,7 +13,11 @@ const SidebarPlaylistItem: FC<SidebarPlaylistItemProps> = ({ name, id }) => {
       <Box
         px={3}
         py={1}
-        sx={{ color: "text.secondary", cursor: "pointer", fontSize: 14 }}>
+        sx={{
+          color: "text.secondary",
+          cursor: "pointer",
+          fontSize: 14,
+        }}>
         {name}
       </Box>
     </Link>
