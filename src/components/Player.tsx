@@ -5,13 +5,15 @@ import PlayerVolume from "./PlayerVolume";
 import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
 
 interface PlayerProps {
-  spotifyApi: any;
+  spotifyApi?: any;
 }
 
 const Player: FC<PlayerProps> = ({ spotifyApi }) => {
-  const [localPlayer, setPlayer] = useState<any>(null);
+  const track = null;
+
+  const [localPlayer, setPlayer] = useState(null);
   const [is_paused, setPaused] = useState(false);
-  const [current_track, setTrack] = useState<any>(null);
+  const [current_track, setTrack] = useState(track);
   const [device, setDevice] = useState(null);
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(null);
@@ -33,21 +35,21 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
         volume: 0.5,
       });
 
-      player.addListener("ready", ({ device_id }: any) => {
+      player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", { device_id, player });
         setDevice(device_id);
         setPlayer(player);
       });
 
-      player.addListener("player_state_changed", (state: any) => {
+      player.addListener("player_state_changed", (state) => {
         if (!state || !state.track_window?.current_track) {
           return;
         }
         console.log(state);
         const duration_ms = state.track_window.current_track.duration_ms / 1000;
         const position_ms = state.position / 1000;
-        setDuration(duration_ms as any);
-        setProgress(position_ms as any);
+        setDuration(duration_ms);
+        setProgress(position_ms);
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
       });
@@ -59,9 +61,9 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
 
   useEffect(() => {
     if (!localPlayer) return;
-    localPlayer?.connect();
+    localPlayer.connect();
     return () => {
-      localPlayer?.disconnect();
+      localPlayer.disconnect();
     };
   }, [localPlayer]);
 
@@ -79,7 +81,6 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
   }, [device, spotifyApi]);
 
   if (!localPlayer || !current_track) return null;
-
   return (
     <Box>
       <Grid
@@ -121,7 +122,7 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
             player={localPlayer}
           />
         </Grid>
-        <PlayerVolume />
+        <PlayerVolume player={localPlayer} />
       </Grid>
     </Box>
   );
