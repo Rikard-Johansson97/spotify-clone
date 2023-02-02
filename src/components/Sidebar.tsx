@@ -4,14 +4,14 @@ import { Link, useParams } from "react-router-dom";
 import { HomeRounded } from "@mui/icons-material";
 import SidebarPlaylistItem from "./SidebarPlaylistItem";
 import { useSelector } from "react-redux";
-import { Playlists } from "../types/playlist";
+import { AlbumList, PlaylistType, State } from "../types/playlist";
 
 interface SidebarProps {}
 
 const Sidebar: FC<SidebarProps> = ({}) => {
-  const { albumList } = useSelector((state) => state.playlist);
-
-  console.log(albumList);
+  const { albumList }: any = useSelector<State>((state) => {
+    return state.playlist;
+  });
 
   return (
     <Box
@@ -42,7 +42,7 @@ const Sidebar: FC<SidebarProps> = ({}) => {
       </Box>
 
       <Box sx={{ flex: 1, overflowY: "auto" }}>
-        {albumList.map((album) => (
+        {albumList.map((album: AlbumList) => (
           <SidebarPlaylistItem key={album.id} id={album.id} name={album.name} />
         ))}
       </Box>

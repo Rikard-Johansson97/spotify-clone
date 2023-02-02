@@ -8,9 +8,10 @@ export default function PlayerVolume({ player }: any) {
   return (
     <Grid
       item
-      xs={3}
+      xs={12}
+      md={3}
       sx={{
-        display: "flex",
+        display: { xs: "none", md: "flex" },
         alignItems: "center",
         justifyContent: "flex-end",
       }}>
@@ -30,9 +31,9 @@ export default function PlayerVolume({ player }: any) {
           min={0}
           max={100}
           value={volume}
-          onChange={(_, v) => setVolume(v)}
+          onChange={(_, v) => setVolume(v as number)}
           onChangeCommitted={(_, v) => {
-            player.setVolume(v / 100);
+            player.setVolume((v as number) / 100);
           }}
           step={1}
         />

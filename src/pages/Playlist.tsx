@@ -2,22 +2,23 @@ import { Avatar, Box, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SongTable from "../components/SongTable";
+import { PlaylistType } from "../types/playlist";
 import { Song, Songs } from "../types/song";
 
 interface PlaylistProps {
-  spotifyApi: any;
+  spotifyApi: PlaylistType;
 }
 
 const Playlist: FC<PlaylistProps> = ({ spotifyApi }) => {
   const { id } = useParams();
-  const [playlist, setPlaylist] = useState(null);
+  const [playlist, setPlaylist] = useState<PlaylistType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getPlaylist() {
       setIsLoading(true);
       const playlistInfo = await spotifyApi.getPlaylist(id);
-      console.log(playlistInfo);
+
       setPlaylist(playlistInfo.body);
       setIsLoading(false);
     }

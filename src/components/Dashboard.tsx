@@ -10,6 +10,8 @@ import { getPlaylist } from "../store/playlistSlice";
 import { redirectURL } from "../config";
 import SpotifyWebApi from "spotify-web-api-node";
 import Player from "./Player";
+import PlayerOverlay from "./PlayerOverlay";
+import MobileNav from "./MobileNav";
 
 interface DashboardProps {}
 
@@ -55,6 +57,7 @@ const Dashboard: FC<DashboardProps> = ({}) => {
         </Routes>
       </Box>
       <Player />
+      <MobileNav />
     </Box>
   );
 };

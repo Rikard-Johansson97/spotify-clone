@@ -4,9 +4,9 @@ import { SkipNext, SkipPrevious, PlayArrow, Pause } from "@mui/icons-material";
 import { formatTime } from "../utils/formatTime";
 
 interface PlayerControllerProps {
-  progress: any;
-  is_paused: any;
-  duration: any;
+  is_paused: boolean;
+  progress: string | null | any;
+  duration: string | null | any;
   player: any;
 }
 
@@ -89,10 +89,10 @@ const PlayerController: FC<PlayerControllerProps> = ({
           value={currentProgress}
           max={duration / 1000}
           onChange={(_, v) => {
-            setCurrentProgress(v);
+            setCurrentProgress(v as number);
           }}
           onChangeCommitted={(_, v) => {
-            player.seek(v * 1000);
+            player.seek((v as number) * 1000);
           }}
         />
         <Typography

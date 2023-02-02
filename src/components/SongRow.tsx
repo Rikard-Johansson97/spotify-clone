@@ -2,17 +2,19 @@ import React, { FC } from "react";
 import { Box, Avatar, Typography, Grid, Skeleton } from "@mui/material";
 import { Song } from "../types/song";
 import { formatTime } from "../utils/formatTime";
+import { PlaylistType } from "../types/playlist";
 
 interface SongRowProps {
-  index: number;
-  song: Song;
-  isLoading: boolean;
+  index?: number | undefined;
+  song?: Song;
+  isLoading?: boolean;
+  spotifyApi?: PlaylistType;
 }
 
 const SongRow: FC<SongRowProps> = ({ index, song, isLoading, spotifyApi }) => {
   async function handleClick() {
     console.log(song);
-    await spotifyApi.play(song);
+    await spotifyApi?.play(song);
   }
   return (
     <Grid
@@ -34,7 +36,7 @@ const SongRow: FC<SongRowProps> = ({ index, song, isLoading, spotifyApi }) => {
           display: "flex",
           alignItems: "center",
         }}>
-        {index + 1}
+        {index && index + 1}
       </Grid>
       <Grid
         item
@@ -42,21 +44,21 @@ const SongRow: FC<SongRowProps> = ({ index, song, isLoading, spotifyApi }) => {
         {isLoading ? (
           <Skeleton variant='rectangular' width={40} height={40} />
         ) : (
-          <Avatar variant='square' src={song.album.images[0]?.url} />
+          <Avatar variant='square' src={song?.album.images[0]?.url} />
         )}
         <Box sx={{ ml: 1 }}>
           <Typography sx={{ fontSize: 16, color: "text.primary" }}>
             {isLoading ? (
               <Skeleton variant='text' width={130} height={24} />
             ) : (
-              song.name
+              song?.name
             )}
           </Typography>
           <Typography sx={{ fontSize: 12, color: "text.secondary" }}>
             {isLoading ? (
               <Skeleton variant='text' width={50} height={18} />
             ) : (
-              song.artists[0].name
+              song?.artists[0].name
             )}
           </Typography>
         </Box>
@@ -71,7 +73,7 @@ const SongRow: FC<SongRowProps> = ({ index, song, isLoading, spotifyApi }) => {
         {isLoading ? (
           <Skeleton variant='text' width={50} height={18} />
         ) : (
-          song.album.name
+          song?.album.name
         )}
       </Grid>
       <Grid
@@ -85,7 +87,7 @@ const SongRow: FC<SongRowProps> = ({ index, song, isLoading, spotifyApi }) => {
         {isLoading ? (
           <Skeleton variant='text' width={50} height={18} />
         ) : (
-          formatTime(song.duration_ms)
+          formatTime(song?.duration_ms)
         )}
       </Grid>
     </Grid>

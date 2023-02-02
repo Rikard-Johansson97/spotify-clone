@@ -3,18 +3,20 @@ import { Avatar, Box, Grid, Typography } from "@mui/material";
 import PlayerController from "./PlayerController";
 import PlayerVolume from "./PlayerVolume";
 import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
+import PlayerOverlay from "./PlayerOverlay";
+import { PlaylistType, State } from "../types/playlist";
 
 interface PlayerProps {
-  spotifyApi?: any;
+  spotifyApi?: PlaylistType;
 }
 
 const Player: FC<PlayerProps> = ({ spotifyApi }) => {
-  const [localPlayer, setPlayer] = useState(null);
+  const [localPlayer, setPlayer] = useState<Player | null>(null);
   const [is_paused, setPaused] = useState(false);
   const [current_track, setTrack] = useState(null);
   const [device, setDevice] = useState(null);
-  const [duration, setDuration] = useState(null);
-  const [progress, setProgress] = useState(null);
+  const [duration, setDuration] = useState<String | null>(null);
+  const [progress, setProgress] = useState<String | null>(null);
   const [playerOverlayIsOpen, setPlayerOverlayIsOpen] = useState(false);
 
   useEffect(() => {
@@ -27,23 +29,23 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new window.Spotify.Player({
         name: "Techover player",
-        getOAuthToken: (cb) => {
+        getOAuthToken: (cb: any) => {
           cb(token);
         },
         volume: 0.5,
       });
 
-      player.addListener("ready", ({ device_id }) => {
+      player.addListener("ready", ({ device_id }: any) => {
         console.log("Ready with Device ID", { device_id, player });
         setDevice(device_id);
         setPlayer(player);
       });
 
-      player.addListener("player_state_changed", (state) => {
+      player.addListener("player_state_changed", (state: any) => {
         if (!state || !state.track_window?.current_track) {
           return;
         }
-        console.log(state);
+        console.log(JSON.stringify(state));
         const duration_ms = state.track_window.current_track.duration_ms;
         const position_ms = state.position;
         setDuration(duration_ms);
@@ -68,11 +70,11 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
   useEffect(() => {
     const transferMyPlayback = async () => {
       if (device) {
-        await spotifyApi.transferMyPlayback([device], true);
+        await spotifyApi?.transferMyPlayback([device], true);
       }
     };
     const getDeviceFromApi = async () => {
-      await spotifyApi.getMyDevices();
+      await spotifyApi?.getMyDevices();
     };
     getDeviceFromApi();
     transferMyPlayback();
@@ -84,6 +86,9 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
       <Grid
         container
         px={3}
+        onClick={() => {
+          setPlayerOverlayIsOpen((c) => !c);
+        }}
         sx={{
           height: 100,
           width: "100%",
@@ -108,7 +113,7 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
         <Grid
           item
           sx={{
-            display: "flex",
+            display: { xs: "none", md: "flex" },
             flex: 1,
             justifyContent: "center",
             alignItems: "center",
@@ -122,6 +127,15 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
         </Grid>
         <PlayerVolume player={localPlayer} />
       </Grid>
+      <PlayerOverlay
+        playerOverlayIsOpen={playerOverlayIsOpen}
+        closeOverlay={() => setPlayerOverlayIsOpen(false)}
+        song={current_track}
+        is_paused={is_paused}
+        progress={progress}
+        duration={duration}
+        player={localPlayer}
+      />
     </Box>
   );
 };

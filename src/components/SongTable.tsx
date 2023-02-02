@@ -1,12 +1,14 @@
 import { AccessTimeRounded } from "@mui/icons-material";
 import { Box, Grid } from "@mui/material";
 import React, { FC } from "react";
+import { PlaylistType } from "../types/playlist";
 import { Items, Songs } from "../types/song";
 import SongRow from "./SongRow";
 
 interface SongTableProps {
-  songs: Items | undefined;
+  songs: Items[] | undefined;
   isLoading: boolean;
+  spotifyApi: PlaylistType;
 }
 
 const SongTable: FC<SongTableProps> = ({ isLoading, songs, spotifyApi }) => {
@@ -33,7 +35,7 @@ const SongTable: FC<SongTableProps> = ({ isLoading, songs, spotifyApi }) => {
       {isLoading
         ? Array(20)
             .fill(0)
-            .map((_, index) => <SongRow key={index} isLoading index={index} />)
+            .map((_, index) => <SongRow key={index} isLoading />)
         : songs?.map((song, index) => (
             <SongRow
               key={index}
