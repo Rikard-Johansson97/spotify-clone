@@ -6,7 +6,7 @@ import { PlaylistType } from "../types/playlist";
 import { Song, Songs } from "../types/song";
 
 interface PlaylistProps {
-  spotifyApi: PlaylistType;
+  spotifyApi: any;
 }
 
 const Playlist: FC<PlaylistProps> = ({ spotifyApi }) => {

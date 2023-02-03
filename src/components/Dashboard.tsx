@@ -30,7 +30,7 @@ const Dashboard: FC<DashboardProps> = ({}) => {
     if (accessToken) {
       function onMount() {
         spotifyApi.setAccessToken(accessToken as string);
-        dispatch(getPlaylist(spotifyApi));
+        dispatch(getPlaylist(spotifyApi) as any);
       }
       onMount();
     }

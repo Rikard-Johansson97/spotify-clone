@@ -87,7 +87,7 @@ const SongRow: FC<SongRowProps> = ({ index, song, isLoading, spotifyApi }) => {
         {isLoading ? (
           <Skeleton variant='text' width={50} height={18} />
         ) : (
-          formatTime(song?.duration_ms)
+          formatTime(song?.duration_ms as number)
         )}
       </Grid>
     </Grid>

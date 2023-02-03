@@ -21,6 +21,13 @@ interface PlayerProps {
   };
 }
 
+interface WindowWithSpotifyWebPlaybackSDKReady extends Window {
+  onSpotifyWebPlaybackSDKReady: () => any;
+  Spotify: any;
+}
+
+declare var window: WindowWithSpotifyWebPlaybackSDKReady;
+
 const Player: FC<PlayerProps> = ({ spotifyApi }) => {
   const [localPlayer, setPlayer] = useState<PlayerTypes | null>(null);
   const [is_paused, setPaused] = useState(false);
