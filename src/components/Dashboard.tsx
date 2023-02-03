@@ -10,8 +10,8 @@ import { getPlaylist } from "../store/playlistSlice";
 import { redirectURL } from "../config";
 import SpotifyWebApi from "spotify-web-api-node";
 import Player from "./Player";
-import PlayerOverlay from "./PlayerOverlay";
 import MobileNav from "./MobileNav";
+import Library from "../pages/Library";
 
 interface DashboardProps {}
 
@@ -22,15 +22,14 @@ const Dashboard: FC<DashboardProps> = ({}) => {
     redirectUri: redirectURL,
   });
 
-  console.log(spotifyApi);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const accessToken = getAccessTokenFromStorage();
 
     if (accessToken) {
-      async function onMount() {
-        await spotifyApi.setAccessToken(accessToken);
+      function onMount() {
+        spotifyApi.setAccessToken(accessToken as string);
         dispatch(getPlaylist(spotifyApi));
       }
       onMount();
@@ -49,7 +48,7 @@ const Dashboard: FC<DashboardProps> = ({}) => {
         <Sidebar />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/library' element={<div>library</div>} />
+          <Route path='/library' element={<Library />} />
           <Route
             path='/playlist/:id'
             element={<Playlist spotifyApi={spotifyApi} />}

@@ -1,7 +1,7 @@
 import { Box, Divider } from "@mui/material";
 import React, { FC } from "react";
 import { Link, useParams } from "react-router-dom";
-import { HomeRounded } from "@mui/icons-material";
+import { HomeRounded, List } from "@mui/icons-material";
 import SidebarPlaylistItem from "./SidebarPlaylistItem";
 import { useSelector } from "react-redux";
 import { AlbumList, PlaylistType, State } from "../types/playlist";
@@ -34,6 +34,20 @@ const Sidebar: FC<SidebarProps> = ({}) => {
             alignItems: "center",
           }}>
           <HomeRounded sx={{ fontSize: 28, marginRight: 1 }} /> Home
+        </Box>
+      </Link>
+      <Link to='/library' style={{ textDecoration: "none" }}>
+        <Box
+          px={3}
+          py={1}
+          sx={{
+            color: "text.primary",
+            fontWeight: "bold",
+            fontSize: 14,
+            display: "flex",
+            alignItems: "center",
+          }}>
+          <List sx={{ fontSize: 28, marginRight: 1 }} /> bibliotek
         </Box>
       </Link>
 

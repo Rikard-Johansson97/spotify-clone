@@ -8,13 +8,13 @@ import {
 } from "@mui/material";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import React, { FC } from "react";
-import { Song } from "../types/song";
 import PlayerController from "./PlayerController";
+import { CurrentTrack } from "../types/Player";
 
 interface PlayerOverlayProps {
   playerOverlayIsOpen: boolean;
   closeOverlay: any;
-  song: Song;
+  song: CurrentTrack;
   is_paused: boolean;
   progress: string | null;
   duration: string | null;
@@ -30,7 +30,6 @@ const PlayerOverlay: FC<PlayerOverlayProps> = ({
   duration,
   player,
 }) => {
-  console.log(player);
   return (
     <Box
       sx={{
@@ -85,6 +84,7 @@ const PlayerOverlay: FC<PlayerOverlayProps> = ({
               sx={{
                 color: "text.primary",
                 fontSize: 28,
+                width: "100%",
               }}>
               {song?.name}
             </Typography>

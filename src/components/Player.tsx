@@ -4,20 +4,33 @@ import PlayerController from "./PlayerController";
 import PlayerVolume from "./PlayerVolume";
 import { getAccessTokenFromStorage } from "../utils/getAccessTokenFromStorage";
 import PlayerOverlay from "./PlayerOverlay";
-import { PlaylistType, State } from "../types/playlist";
+import { PlaylistType } from "../types/playlist";
+import { CurrentTrack, PlayerTypes } from "../types/Player";
 
 interface PlayerProps {
-  spotifyApi?: PlaylistType;
+  spotifyApi?: {
+    _credentials: {
+      clientId: string;
+      clientSecret: string;
+      redirectUri: string;
+    };
+    getPlaylist: any;
+    play: any;
+    transferMyPlayback: any;
+    getMyDevices: any;
+  };
 }
 
 const Player: FC<PlayerProps> = ({ spotifyApi }) => {
-  const [localPlayer, setPlayer] = useState<Player | null>(null);
+  const [localPlayer, setPlayer] = useState<PlayerTypes | null>(null);
   const [is_paused, setPaused] = useState(false);
-  const [current_track, setTrack] = useState(null);
+  const [current_track, setTrack] = useState<CurrentTrack | null>(null);
   const [device, setDevice] = useState(null);
-  const [duration, setDuration] = useState<String | null>(null);
-  const [progress, setProgress] = useState<String | null>(null);
+  const [duration, setDuration] = useState<string | null>(null);
+  const [progress, setProgress] = useState<string | null>(null);
   const [playerOverlayIsOpen, setPlayerOverlayIsOpen] = useState(false);
+
+  console.log(JSON.stringify(spotifyApi));
 
   useEffect(() => {
     const token = getAccessTokenFromStorage();
@@ -28,7 +41,7 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
 
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new window.Spotify.Player({
-        name: "Techover player",
+        name: "Spotify Clone by RIKARD",
         getOAuthToken: (cb: any) => {
           cb(token);
         },
@@ -36,7 +49,6 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
       });
 
       player.addListener("ready", ({ device_id }: any) => {
-        console.log("Ready with Device ID", { device_id, player });
         setDevice(device_id);
         setPlayer(player);
       });
@@ -45,7 +57,6 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
         if (!state || !state.track_window?.current_track) {
           return;
         }
-        console.log(JSON.stringify(state));
         const duration_ms = state.track_window.current_track.duration_ms;
         const position_ms = state.position;
         setDuration(duration_ms);
@@ -81,6 +92,7 @@ const Player: FC<PlayerProps> = ({ spotifyApi }) => {
   }, [device, spotifyApi]);
 
   if (!localPlayer || !current_track) return null;
+
   return (
     <Box>
       <Grid

@@ -1,10 +1,10 @@
 export type PlaylistType = {
   // FUNCTIONS
+
   getPlaylist: any
   play: any
   transferMyPlayback: any
   getMyDevices: any
-  
     collaborative: boolean
     description: string
     external_urls: {

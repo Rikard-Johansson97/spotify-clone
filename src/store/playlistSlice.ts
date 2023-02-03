@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, SliceCaseReducers } from '@reduxjs/toolkit'
-import { Playlists } from '../types/playlist'
 
 const initialState = {
   status: {
